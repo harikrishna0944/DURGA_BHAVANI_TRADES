@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<body>
+    <div class="container1">
+        <h1>Add Item</h1>
+        <form action="{% url 'addrec' %}" method="post">
+            {% csrf_token %}
+            <label for="">LOT Name</label><br><br>
+            <input type="text" name="LOT_Name"><br><br>
+            <label for="">Bags</label><br><br>
+            <input type="text" name="Bags"><br><br>
+            <label for="">Total Kgs</label><br><br>
+            <input type="text" name="Total_Kgs"><br><br>
+            <label for="">Rate Per Kg</label><br><br>
+            <input type="text" name="Rate_Per_Kg"><br><br>
+            <label for="">Amount Rs</label><br><br>
+            <input type="text" name="Amount_Rs"><br><br>
+            <button type="submit" id="new">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>
