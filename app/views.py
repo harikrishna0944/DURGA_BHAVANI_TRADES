@@ -67,4 +67,9 @@ def totalrec(request):
         totr.save()
         return redirect("/")
     
+def deleteded(request,id):
+    dedc=deduction.objects.get(id=id)
+    dedc.delete()
+    return redirect("/")
+    
 

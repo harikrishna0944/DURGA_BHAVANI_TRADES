@@ -43,10 +43,11 @@
 </head>
 {% load static %}
 <link rel="stylesheet" href="{% static "style1.css" %}">
+<link href="{% static 'responsive.css' %}" rel="stylesheet" />
 <body>
     <div class="container">
         <h1>DURGA BHAVANI TRADERS</h1>
-        <table id="customers" border="1">
+        <table id="customers" border="0">
             <thead>
                 <th>Id</th>
                 <th>LOT Name</th>
@@ -89,21 +90,33 @@
             </tr>
         </tfoot> 
         </table>
-        <table id="Deductions" border="1">
-            
-            <thead>
-                <th>Cooli & Rent:</th>
-                <th>L/F Amount:</th>
-                <th>Commission(%5):</th>
-                <th>Brokerage:</th>
-            </thead>
+        <table id="Deductions" border="0">
+            <thead><h4>Deductions</h4></thead>
             {% for i in dedc %}
+            {% if forloop.first %}
             <tr>
-                <td>{{i.Cooli_Rent}}</td>
-                <td>{{i.LF_Amount}}</td>
-                <td>{{i.Commission}}</td>
-                <td>{{i.Brokerage}}</td>
+                <th colspan="3">Cooli & Rent:</th>
+                <td colspan="1">{{i.Cooli_Rent}}</td>
             </tr>
+            <tr>
+                <th colspan="3">L/F Amount:</th>
+                <td colspan="1">{{i.LF_Amount}}</td>
+            </tr>
+            <tr>
+                <th colspan="3">Commission(%5):</th>
+                <td colspan="1">{{i.Commission}}</td>
+            </tr>
+            <tr>
+                <th colspan="3">Brokerage:</th>
+                <td colspan="1">{{i.Brokerage}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="deleteded/{{i.id}}"><button id="del">Delete</button></a>
+                </td>
+            </tr>
+            
+            {% endif %}
             {% endfor%}
             <tfoot>
                 <tr>
