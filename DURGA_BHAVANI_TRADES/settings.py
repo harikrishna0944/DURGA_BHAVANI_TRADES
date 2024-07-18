@@ -23,9 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-_q2qhvpk5w0#+kvc(0vlo=6+cxkia*k*3813^s#d(8b@on+fgg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    'https://hari.harikrishna.xyz',
+]
+
+ALLOWED_HOSTS = ['13.202.121.248','hari.harikrishna.xyz','harikrishna-lb-75444606.ap-south-1.elb.amazonaws.com',]
 
 
 # Application definition
