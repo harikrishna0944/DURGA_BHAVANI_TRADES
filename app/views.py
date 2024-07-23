@@ -1,13 +1,23 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .models import bill,deduction,total
 from .pdf import html2pdf
+from decimal import Decimal
+
 
 # Create your views here.
 
 def index(request):
     biller=bill.objects.all()
+    bags=total.objects.values_list('totalBags', flat=True).first()
+    bags = Decimal(bags) if bags is not None else Decimal('0')
+    toatalamount=total.objects.values_list('totalAmount', flat=True).first()
+    toatalamount = Decimal(toatalamount) if toatalamount is not None else Decimal('0')
     dedc=deduction.objects.all()
-    return render(request,"index.html",{"biller":biller,"dedc":dedc})
+    for item in dedc:
+        item.Cooli_Rent = item.Cooli_Rent * bags
+        item.Commission = toatalamount * Decimal('0.05')
+
+    return render(request,"index.html",{"biller":biller,"dedc":dedc,'bags':bags})
 def add(request):
     return render(request,"add.html")
 def addrec(request):
@@ -42,7 +52,12 @@ def uprec(request,id):
     return redirect("/")
 def pdf(request):
     biller=bill.objects.all()
+    bags=total.objects.values_list('totalBags', flat=True).first()
+    toatalamount=total.objects.values_list('totalAmount', flat=True).first()
     dedc=deduction.objects.all()
+    for item in dedc:
+        item.Cooli_Rent = item.Cooli_Rent * bags
+        item.Commission = toatalamount * Decimal('0.05')
     totc=total.objects.all()
     pdf=html2pdf("pdf.html",{"biller":biller,"dedc":dedc,"totc":totc})
     return HttpResponse(pdf,content_type="application/pdf")
@@ -51,9 +66,8 @@ def ded(request):
 def dedrec(request):
     a=request.POST["Cooli_Rent"]
     b=request.POST["LF_Amount"]
-    c=request.POST["Commission"]
     d=request.POST["Brokerage"]
-    ded=deduction(Cooli_Rent=a,LF_Amount=b,Commission=c,Brokerage=d)
+    ded=deduction(Cooli_Rent=a,LF_Amount=b,Brokerage=d)
     ded.save()
     return redirect("/")
 def totalrec(request):
@@ -67,9 +81,13 @@ def totalrec(request):
         totr.save()
         return redirect("/")
     
-def deleteded(request,id):
-    dedc=deduction.objects.get(id=id)
+def deleteded(request):
+    dedc=deduction.objects.all()
     dedc.delete()
+    return redirect("/")
+def deleted(request):
+    totr=total.objects.all()
+    totr.delete()
     return redirect("/")
     
 

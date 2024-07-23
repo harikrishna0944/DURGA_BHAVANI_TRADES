@@ -12,7 +12,8 @@ urlpatterns = [
     path("ded/",views.ded,name="ded"),
     path("dedrec/",views.dedrec,name="dedrec"),
     path("totalrec/",views.totalrec,name="totalrec"),
-    path("deleteded/<int:id>/",views.deleteded,name="deleteded"),
+    path("deleteded/",views.deleteded,name="deleteded"),
+    path("deleted/",views.deleted,name="deleted"),
 
 
 ]

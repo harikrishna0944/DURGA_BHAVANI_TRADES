@@ -11,7 +11,6 @@ class bill(models.Model):
 class deduction(models.Model):
     Cooli_Rent=models.DecimalField(max_digits=10, decimal_places=2)
     LF_Amount=models.DecimalField(max_digits=10, decimal_places=2)
-    Commission=models.DecimalField(max_digits=10, decimal_places=2)
     Brokerage=models.DecimalField(max_digits=10, decimal_places=2)
 
 class total(models.Model):
