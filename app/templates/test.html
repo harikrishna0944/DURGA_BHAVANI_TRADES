@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DURGA BHAVANI TRADERS</title>
+    <style> 
+        h1 {text-align: center;}
+        div {text-align: center;}
+        label { 
+            float: left; 
+        } 
+          
+        span { 
+            display: block; 
+            overflow: hidden; 
+            padding: 0px 4px 0px 6px; 
+        } 
+          
+        input { 
+            width: 50%; 
+            float: right;
+            
+        } 
+        able {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+    </style> 
+    <script>
+        function addNewRow() {
+            var table = document.getElementById("customers");
+            var row = table.insertRow(-1); // Add at the end of the table
+            row.innerHTML = `
+                <td></td>
+                <td><input type="text" name="LOT_Name" placeholder="LOT Name"></td>
+                <td><input type="number" name="Bags" placeholder="Bags"></td>
+                <td><input type="number" step="0.01" name="Total_Kgs" placeholder="Total Kgs"></td>
+                <td><input type="number" step="0.01" name="Rate_Per_Kg" placeholder="Rate Per Kg"></td>
+                <td colspan="2">
+                    <button id="save" onclick="saveRow(this)">Save</button>
+                </td>
+            `;
+        }
+
+        function saveRow(button) {
+            var row = button.parentNode.parentNode;
+            var inputs = row.getElementsByTagName("input");
+            var data = {};
+            for (var i = 0; i < inputs.length; i++) {
+                data[inputs[i].name] = inputs[i].value;
+            }
+            console.log(data); // Here you can send the data to your server using AJAX
+
+            // Optionally, replace the input fields with the values
+            for (var i = 0; i < inputs.length; i++) {
+                var cell = inputs[i].parentNode;
+                cell.innerHTML = inputs[i].value;
+            }
+            button.parentNode.innerHTML = '<button id="up">Update</button> <button id="del">Delete</button>';
+        }
+    </script>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static "style1.css" %}">
+<link href="{% static 'responsive.css' %}" rel="stylesheet" />
+<body>
+    <div class="container">
+        <h1>DURGA BHAVANI TRADERS</h1>
+        <h3 style="color: #d3d3d3;">BOM TRADERS</h3>
+        <table id="customers" border="0">
+            <thead>
+                <th>SNO</th>
+                <th>LOT Name</th>
+                <th>Bags</th>
+                <th>Total Kgs</th>
+                <th>Rate Per Kg</th>
+                <th>Amount Rs</th>
+                <th colspan="2" id="mid">Action</th>
+            </thead>
+            {% for i in biller %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.LOT_Name}}</td>
+                <td>{{i.Bags}}</td>
+                <td>{{i.Total_Kgs }}</td>
+                <td>{{i.Rate_Per_Kg}}</td>
+                <td>{{i.Amount_Rs |floatformat:2}}</td>
+                <td>
+                    <a href="update/{{i.id}}"><button id="up" >Update</button> </a>
+                </td>
+                <td>
+                    <a href="delete/{{i.id}}"><button id="del">Delete</button></a>
+                </td>
+                {% if forloop.last %}
+                <td>
+                <!-- <a href="{% url 'add' %}"><button id="new3" >Add Iteam</button></a> -->
+                <button id="new3" onclick="addNewRow()">Add Item</button>
+                </td>
+                {% endif %}
+            </tr>
+          {% endfor%} 
+                <tr>
+                        <th colspan="2">Total Sales Bags Count:</th>
+                        <td>{{ bags }}</td>
+                        <th >Total Kgs:  {{ total_kgs|floatformat:0 }}</th>
+                        <th >Total Amount:</th>
+                        <td >{{ toatalamount |floatformat:2}}</td>
+                        <th colspan="2" >Deduction</th>
+                </tr>
+                
+        </table>
+        <table id="Deductions" border="0">
+            <thead><h4>Deductions</h4></thead>
+            {% for i in dedc %}
+            {% if forloop.first %}
+            <tr>
+                <th colspan="3">Cooli & Rent:</th>
+                <td colspan="1">{{i.Cooli_Rent}}</td>
+            </tr>
+            <tr>
+                <th colspan="3">L/F Amount:</th>
+                <td colspan="1">{{i.LF_Amount}}</td>
+            </tr>
+            <tr>
+                <th colspan="3">Commission(%5):</th>
+                <td colspan="1">{{i.Commission|floatformat:2}}</td>
+            </tr>
+            <tr>
+                <th colspan="3">Brokerage:</th>
+                <td colspan="1">{{i.Brokerage}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="deleteded"><button id="del">Delete</button></a>
+                </td>
+            </tr>
+            
+            {% endif %}
+            {% endfor%}
+            <tfoot>
+                <tr>
+                    <th colspan="2">Deduction</th>
+                    <td id="Deduction"  colspan="2"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">Total Net Amount</th>
+                    <td id="totalnetAmount"  colspan="2"></td>
+                </tr>
+                
+            </tfoot>
+            <script>
+                function calculateTotals() {
+                    let table = document.getElementById("customers");
+                    let rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+                    let totalBags = 0;
+                    let totalkgs = 0;
+                    let totalAmount = 0;
+        
+                    for (let i = 0; i < rows.length; i++) {
+                        let cells = rows[i].getElementsByTagName("td");
+                        totalBags += parseInt(cells[2].innerText) || 0;
+                        totalkgs += parseInt(cells[3].innerText) || 0;
+                        totalAmount += parseFloat(cells[5].innerText) || 0;
+                    }
+        
+                    document.getElementById("totalBags").innerText = totalBags;
+                    document.getElementById("totalkgs").innerText = totalkgs;
+                    document.getElementById("totalAmount").innerText = totalAmount;
+                    return totalAmount;
+                }
+        
+                function calculateTotals1(totalAmount) {
+                    let table = document.getElementById("Deductions");
+                    let rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+                    let Deduction = 0;
+        
+                    for (let i = 0; i < rows.length; i++) {
+                        let cells = rows[i].getElementsByTagName("td");
+                        for (let j = 0; j < cells.length; j++) {
+                            let value = parseFloat(cells[j].innerText) || 0;
+                            Deduction += value;
+                        }
+                    }
+        
+                    let totalnetAmount = totalAmount - Deduction;
+                    document.getElementById("Deduction").innerText = Deduction;
+                    document.getElementById("totalnetAmount").innerText = totalnetAmount;
+                    return totalnetAmount; // Return totalnetAmount to update form field
+                }
+        
+                function updateFormFields() {
+                    let totalAmount = calculateTotals();
+                    let totalnetAmount = calculateTotals1(totalAmount);
+        
+                    // Update form hidden fields with calculated totals
+                    document.getElementsByName("TotalBags")[0].value = document.getElementById("totalBags").innerText;
+                    document.getElementsByName("totalkgs")[0].value = document.getElementById("totalkgs").innerText;
+                    document.getElementsByName("totalAmount")[0].value = document.getElementById("totalAmount").innerText;
+                    document.getElementsByName("Deduction")[0].value = document.getElementById("Deduction").innerText;
+                    document.getElementsByName("totalnetAmount")[0].value = totalnetAmount;
+                }
+        
+                // Calculate the totals and update form fields on page load
+                window.onload = function() {
+                    updateFormFields();
+                };
+            </script>
+            
+        
+        </table>
+        
+
+        <form action="{% url 'totalrec' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="TotalBags">
+            <input type="hidden" name="totalkgs">
+            <input type="hidden" name="totalAmount">
+            <input type="hidden" name="Deduction">
+            <input type="hidden" name="totalnetAmount">
+            <button type="submit" id="new">Submit</button>
+        </form>
+    
+        <script>
+            // Ensure the updateFormFields function is called to populate the form fields initially
+            updateFormFields();
+        </script>
+
+        
+        
+        
+        <br><br>
+        <a href="{% url 'deleted' %}"><button id="new3" >Delete All</button></a>
+        <a href="{% url 'add' %}"><button id="new3" >Add Iteam</button></a>
+        <a href="{% url 'ded' %}"><button id="new3" >Add Deduction</button></a>
+        <a href="{% url 'pdf' %}"><button id="new3">pdf generate</button></a>
+    </div>
+    
+</body>
+
+</html>

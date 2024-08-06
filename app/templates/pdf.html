@@ -7,163 +7,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DURGA BHAVANI TRADERS</title>
     <style>
-        h1 {text-align: center;}
-        h4 {text-align: center;}
-        div {text-align: center;}
-        table, th, td {
-                border: 1px solid black;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 50px;
-                height: 50px;
-                vertical-align: center;
+        body {
+            font-family: Arial, sans-serif;
         }
-        </style>
+        h1, h3, h5 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 50px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .dotted-border {
+            border: 1px dotted #ddd;
+        }
+    </style>
 </head>
-{% load static %}
-<link rel="stylesheet" href="{% static "style1.css" %}">
-<link href="{% static 'responsive.css' %}" rel="stylesheet" />
 <body>
-    <div class="container">
-        <h1 text>DURGA BHAVANI TRADERS</h1>
-        <table id="customers" border="1">
-            <thead>
-                <tr>
-                    <th >SNO</th>
-                    <th>LOT Name</th>
-                    <th>Bags</th>
-                    <th>Total Kgs</th>
-                    <th>Rate Per Kg</th>
-                    <th>Amount Rs</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in biller %}
-                <tr>
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.LOT_Name }}</td>
-                    <td>{{ i.Bags }}</td>
-                    <td>{{ i.Total_Kgs }}</td>
-                    <td>{{ i.Rate_Per_Kg }}</td>
-                    <td>{{ i.Amount_Rs }}</td>
-                </tr>
-                {% endfor %}
-                
-                {% for i in totc %}
-                <tr>
-                    <th colspan="3">Total Sales Bags Count: </th>
-                    <td colspan="1">{{ i.totalBags }}</td>
-                    <th rowspan="3" colspan="3">
-                        <h4>Deductions</h4>
-                        </th>
-                </tr>
-                <tr>
-                    <th colspan="3">Total Kgs:</th>
-                    <td colspan="1">{{ i.totalkgs }}</td>
-                </tr>
-                <tr>
-                    <th colspan="3">Total Amount:</th>
-                    <td colspan="1">{{ i.totalAmount }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            <tbody>
-                {% for i in dedc %}
-                {% if forloop.first %}
-                <tr>
-                    <th colspan="4">Cooli & Rent</th>
-                    <td colspan="2">{{ i.Cooli_Rent }}</td>
-                </tr>
-                <tr>
-                    <th colspan="4">L/F Amount</th>
-                    <td colspan="2">{{ i.LF_Amount }}</td>
-                </tr>
-                <tr>
-                    <th colspan="4">Commission (%5)</th>
-                    <td colspan="2">{{ i.Commission|floatformat:2 }}</td>
-                </tr>
-                <tr>
-                    <th colspan="4">Brokerage</th>
-                    <td colspan="2">{{ i.Brokerage }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                {% for i in totc %}
-                {% if forloop.first %}
-                <tr>
-                    <th colspan="4">Deduction</th>
-                    <td colspan="2">{{ i.Deduction }}</td>
-                </tr>
-                <tr>
-                    <th colspan="3">Total Amount:</th>
-                    <td colspan="1"><b>{{ i.totalAmount }}</b></td>
-                    <th colspan="3">Deduction</th>
-                    <td colspan="1" ><b>{{ i.Deduction }}</b></td>
-                </tr>
-                <tr>
-                    <th colspan="6">Total Net Amount</th>
-                    <td colspan="2"><b>{{ i.totalnetAmount }}</b></td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </tfoot>
-        </table>
-            
-           <!-- <script>
-                function calculateTotals() {
-                    let table = document.getElementById("customers");
-                    let rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-                    let totalBags = 0;
-                    let totalkgs = 0;
-                    let totalAmount = 0;
-        
-                    for (let i = 0; i < rows.length; i++) {
-                        let cells = rows[i].getElementsByTagName("td");
-                        totalBags += parseInt(cells[2].innerText) || 0;
-                        totalkgs += parseInt(cells[4].innerText) || 0;
-                        totalAmount += parseFloat(cells[5].innerText) || 0;
-                    }
-        
-                    document.getElementById("totalBags").innerText = totalBags;
-                    document.getElementById("totalkgs").innerText = totalkgs;
-                    document.getElementById("totalAmount").innerText = totalAmount;
-                    return totalAmount;
-                }
-        
-                function calculateTotals1(totalAmount) {
-                    let table = document.getElementById("Deductions");
-                    let rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-                    let Deduction = 0;
-        
-                    for (let i = 0; i < rows.length; i++) {
-                        let cells = rows[i].getElementsByTagName("td");
-                        for (let j = 0; j < cells.length; j++) {
-                            let value = parseFloat(cells[j].innerText) || 0;
-                            Deduction += value;
-                        }
-                    }
-        
-                    let totalnetAmount = totalAmount - Deduction;
-                    document.getElementById("Deduction").innerText = Deduction;
-                    document.getElementById("totalnetAmount").innerText = totalnetAmount;
-                }
-        
-                // Calculate the totals on page load
-                window.onload = function() {
-                    let totalAmount = calculateTotals();
-                    calculateTotals1(totalAmount);
-                };
-                
-            </script>
-            -->
-        
-        
-
-        <br><br>
-    </div>
-    <h5>This is System Generated Invoice</h5>
+    <h1>DURGA BHAVANI TRADERS</h1>
+    <h3 style="color: #d3d3d3;">BOM TRADERS</h3>
+    <table id="customers">
+        <thead>
+            <tr>
+                <th>SNO</th>
+                <th>LOT Name</th>
+                <th>Bags</th>
+                <th>Total Kgs</th>
+                <th>Rate Per Kg</th>
+                <th>Amount Rs</th>
+                <td colspan="2"></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in biller %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.LOT_Name }}</td>
+                <td>{{ i.Bags }}</td>
+                <td>{{ i.Total_Kgs }}</td>
+                <td>{{ i.Rate_Per_Kg }}</td>
+                <td>{{ i.Amount_Rs|floatformat:2 }}</td>
+                <td colspan="2" class="dotted-border"></td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <th colspan="2">Total Sales Bags Count:</th>
+                <td>{{ total_bags }}</td>
+                <th>Total Kgs: {{ total_kgs|floatformat:0 }}</th>
+                <th>Total Amount:</th>
+                <td>{{ total_amount_rs|floatformat:2 }}</td>
+                <th colspan="2" class="center-text">Deduction</th>
+            </tr>
+            <tr>
+                <th colspan="6">Cooli & Rent:</th>
+                <td colspan="2" class="center-text">{{ latest_deduction.Cooli_Rent|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th colspan="6">L/F Amount:</th>
+                <td colspan="2" class="center-text">{{ latest_deduction.LF_Amount|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th colspan="6">Commission (5%):</th>
+                <td colspan="2" class="center-text">{{ latest_deduction.Commission|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th colspan="6">Brokerage:</th>
+                <td colspan="2" class="center-text">{{ latest_deduction.Brokerage|floatformat:2 }}</td>
+            </tr>
+            <tr class="total-row">
+                <th colspan="6">Total Deduction:</th>
+                <td colspan="2" class="center-text">{{ total_deduction|floatformat:2 }}</td>
+            </tr>
+            <tr class="total-row">
+                <th colspan="6">Total Net Amount:</th>
+                <td colspan="2" class="center-text">{{ total_net_amount|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h5>This is a System Generated Invoice</h5>
 </body>
 
 </html>

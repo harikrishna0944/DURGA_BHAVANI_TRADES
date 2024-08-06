@@ -5,26 +5,84 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Add Item</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "style1.css" %}">
+    <link href="{% static 'responsive.css' %}" rel="stylesheet" />
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container1 {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container1 h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+        .container1 label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+        }
+        .container1 input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .container1 button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container1 button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
-{% load static %}
-<link rel="stylesheet" href="{% static "style1.css" %}">
-<link href="{% static 'responsive.css' %}" rel="stylesheet" />
+
 <body>
     <div class="container1">
         <h1>Add Item</h1>
         <form action="{% url 'addrec' %}" method="post">
             {% csrf_token %}
-            <label for="">LOT Name</label><br><br>
-            <input type="text" name="LOT_Name"><br><br>
-            <label for="">Bags</label><br><br>
-            <input type="text" name="Bags"><br><br>
-            <label for="">Total Kgs</label><br><br>
-            <input type="text" name="Total_Kgs"><br><br>
-            <label for="">Rate Per Kg</label><br><br>
-            <input type="text" name="Rate_Per_Kg"><br><br>
-            <label for="">Amount Rs</label><br><br>
-            <input type="text" name="Amount_Rs"><br><br>
+            <label for="lot_name">LOT Name</label>
+            <input type="text" name="LOT_Name" id="lot_name" required>
+            
+            <label for="bags">Bags</label>
+            <input type="text" name="Bags" id="bags" required>
+            
+            <label for="total_kgs">Total Kgs</label>
+            <input type="text" name="Total_Kgs" id="total_kgs" required>
+            
+            <label for="rate_per_kg">Rate Per Kg</label>
+            <input type="text" name="Rate_Per_Kg" id="rate_per_kg" required>
+            
             <button type="submit" id="new">Submit</button>
         </form>
     </div>

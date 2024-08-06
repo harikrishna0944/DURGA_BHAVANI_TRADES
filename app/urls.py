@@ -11,9 +11,9 @@ urlpatterns = [
     path("pdf/",views.pdf,name="pdf"),
     path("ded/",views.ded,name="ded"),
     path("dedrec/",views.dedrec,name="dedrec"),
-    path("totalrec/",views.totalrec,name="totalrec"),
-    path("deleteded/",views.deleteded,name="deleteded"),
-    path("deleted/",views.deleted,name="deleted"),
+    # path("totalrec/",views.totalrec,name="totalrec"),
+    # path("deleteded/",views.deleteded,name="deleteded"),
+    # path("deleted/",views.deleted,name="deleted"),
 
 
 ]
